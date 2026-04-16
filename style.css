@@ -1,0 +1,197 @@
+/* style.css - Közös dizájn a sötét-arany témához */
+body {
+    /* background-color: #121212; */
+    background-color:#121212;
+    color: #eeeeee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background: linear-gradient(90deg, #000000 0%, #3a2e15 50%, #1a1a1a 100%);
+    border-bottom: 2px solid #FFD700;
+    text-align: center;
+    padding: 20px;
+}
+
+h1 {
+    color: #FFD700;
+    margin: 0;
+}
+
+
+nav {
+    background-color: #1e1e1e;
+    padding: 10px;
+    text-align: center;
+    border-bottom: 1px solid #c5a059;
+}
+
+nav a {
+    color: #FFD700;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    padding: 5px 10px;
+}
+
+nav a:hover {
+    background-color: #333;
+    border-radius: 5px;
+}
+
+main {
+    flex: 1;
+    padding: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+
+
+.fooldal-hatter {
+    padding: 0 !important;
+    max-width: 100% !important; 
+    margin: 0 !important;
+    
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('mozi-hatter2.jpg'); 
+    background-size: cover;          
+    background-position: center;    
+    background-repeat: no-repeat;   
+    background-attachment: fixed;   
+    min-height: 80vh;               
+    display: flex;
+    justify-content: center;        
+    align-items: center;            
+}
+
+.aloldal-hatter {
+
+    background-image: 
+        linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)), 
+        url('mozi-hatter2.jpg'); 
+    
+    background-size: cover;          
+    background-position: center;    
+    background-attachment: fixed;   
+    
+    /* MÓDOSÍTÁS: Faltól falig húzzuk a hátteret! */
+    padding: 30px 20px;
+    margin: 0 !important;
+    max-width: 100% !important;
+    min-height: 80vh;
+    border-radius: 0; 
+}
+
+/* ÚJ RÉSZ: A tartalmat (táblázat, űrlap, szöveg) viszont középen tartjuk, hogy ne nyúljon el! */
+.aloldal-hatter table, 
+.aloldal-hatter .form-container, 
+.aloldal-hatter h2, 
+.aloldal-hatter > p {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+.hatter-szoveg {
+    text-align: center;
+    color: #eeeeee;
+    padding: 20px;
+    max-width: 800px; 
+}
+
+.hatter-szoveg h2 {
+    color: #FFD700; /* Arany cím */
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px #000000; 
+    margin-bottom: 20px;
+}
+
+.hatter-szoveg p {
+    font-size: 1.2em;
+    line-height: 1.6;
+    text-shadow: 1px 1px 2px #000000;
+}
+
+
+
+footer {
+    background-color: #1e1e1e;
+    border-top: 1px solid #FFD700;
+    text-align: center;
+    padding: 15px;
+    color: #aaaaaa;
+}
+
+/* CRUD Táblázat Stílusok */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #1e1e1e;
+}
+
+th, td {
+    border: 1px solid #333;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #2a2a2a;
+    color: #FFD700;
+}
+
+tr:nth-child(even) {
+    background-color: #252525;
+}
+
+/* Gombok és űrlapok */
+.form-container {
+    background-color: #1e1e1e;
+    padding: 20px;
+    border: 1px solid #FFD700;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+input {
+    background-color: #2c2c2c;
+    color: white;
+    border: 1px solid #c5a059;
+    padding: 8px;
+    margin: 5px;
+}
+
+button {
+    background-color: #333;
+    color: #FFD700;
+    border: 1px solid #FFD700;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-weight: bold;
+    margin: 5px;
+}
+
+button:hover {
+    background-color: #FFD700;
+    color: #121212;
+}
+
+.btn-delete {
+    background-color: #551111;
+    color: #ff8888;
+    border-color: #ff8888;
+}
+
+.btn-delete:hover {
+    background-color: #ff8888;
+    color: #551111;
+}

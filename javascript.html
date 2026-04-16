@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozi Rendszer - JS CRUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Web programozás-1 Előadás Házifeladat</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Főoldal</a>
+        <a href="javascript.html">JavaScript CRUD</a>
+        <a href="react.html">React CRUD</a>
+        <a href="spa.html">SPA (Játékok)</a>
+        <a href="fetchapi.html">Fetch API</a>
+        <a href="axios.html">Axios CRUD</a>
+        <a href="oojs.html">OOJS</a>
+    </nav>
+
+    <main class="aloldal-hatter">
+        <h2>Filmek adatbázis</h2>
+        
+        <div class="form-container">
+            <h3 id="form-title">Új film hozzáadása</h3>
+            <input type="hidden" id="film-id">
+            <input type="text" id="film-cim" placeholder="Film címe" required>
+            <input type="number" id="film-ev" placeholder="Kiadás éve (pl. 1932)" required>
+            <input type="number" id="film-hossz" placeholder="Hossz (perc)" required>
+            <button onclick="mentes()">Mentés</button>
+            <button onclick="urlapTorles()">Mégse</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cím</th>
+                    <th>Év</th>
+                    <th>Hossz (perc)</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody id="film-tabla-body">
+                </tbody>
+        </table>
+    </main>
+
+    <footer>
+        Készítette: Horváth Gréta Neptun: AZQ13J - Dibáczi Eszter Neptun: AF96RG - Kovács Dániel Neptun: Z2IGLN
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
