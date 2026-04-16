@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozi Rendszer - OOJS Animáció</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+
+        body { 
+            overflow: hidden;
+        }
+        main {
+            position: relative;
+            z-index: 10; 
+            background-color: rgba(30, 30, 30, 0.8); 
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .controls { text-align: center; margin-top: 20px; }
+        .spawn-btn { 
+            padding: 10px 20px; 
+            cursor: pointer; 
+            background-color: #1e1e1e; 
+            color: #FFD700; 
+            border: 2px solid #FFD700; 
+            border-radius: 4px; 
+            font-size: 16px; 
+            margin: 0 10px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        .spawn-btn:hover { background-color: #FFD700; color: #121212; }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Web programozás-1 Előadás Házifeladat</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Főoldal</a>
+        <a href="javascript.html">JavaScript CRUD</a>
+        <a href="react.html">React CRUD</a>
+        <a href="spa.html">SPA (Játékok)</a>
+        <a href="fetchapi.html">Fetch API</a>
+        <a href="axios.html">Axios CRUD</a>
+        <a href="oojs.html">OOJS</a>
+    </nav>
+
+    <main class="aloldal-hatter" style="text-align: center;">
+        <h2>Objektumorientált Grafikus Alkalmazás</h2>
+        <h3>A lenti gombokra kattintva pattogó mozielemeket generálhatsz a képernyőre</h3>
+        
+        <div class="controls">
+            <button class="spawn-btn" onclick="spawnPopcorn()">🍿 Pattogó Popcorn</button>
+            <button class="spawn-btn" onclick="spawnFilm()">🎞️ Hulló Filmtekercs</button>
+        </div>
+    </main>
+
+    <footer style="position: absolute; bottom: 0; width: 100%; z-index: 10;">
+        Készítette: Horváth Gréta Neptun: AZQ13J - Dibáczi Eszter Neptun: AF96RG - Kovács Dániel Neptun: Z2IGLN
+    </footer>
+
+    <script>
+
+       const animatableObjects = [];
+
+        // 1. SZÜLŐ OSZTÁLY
+        class CinemaItem {
+            constructor(x, y, emoji) {
+                this.x = x;
+                this.y = y;
+                
+                this.element = document.createElement('div');
+                this.element.innerText = emoji;
+                this.element.style.position = 'absolute';
+                this.element.style.fontSize = '40px';
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+                this.element.style.userSelect = 'none';
+                this.element.style.zIndex = '10';
+
+                document.body.appendChild(this.element);
+            }
+
+            move() {
+                this.y += 2;
+                this.updatePosition();
+            }
+
+            updatePosition() {
+                this.element.style.left = this.x + 'px';
+                this.element.style.top = this.y + 'px';
+            }
+        }
+
+        // 2. GYEREK OSZTÁLY 1
+        class Popcorn extends CinemaItem {
+            constructor(x, y) {
+                super(x, y, '🍿');
+                this.speedX = (Math.random() - 0.5) * 10;
+                this.speedY = Math.random() * -10;
+                this.gravity = 0.2;
+            }
+
+            move() {
+                this.speedY += this.gravity;
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x <= 0 || this.x >= window.innerWidth - 40) {
+                    this.speedX *= -1;
+                }
+                
+                const padlo = window.innerHeight - 103; 
+                if (this.y >= padlo) {
+                    this.y = padlo;
+                    this.speedY *= -0.5; // Pattanás ereje
+                }
+
+                this.updatePosition();
+            }
+        }
+
+        // 3. GYEREK OSZTÁLY 2
+        class FilmReel extends CinemaItem {
+            constructor(x, y) {
+                super(x, y, '🎞️');
+                this.angle = 0;
+            }
+
+            move() {
+                super.move(); 
+                this.angle += 5;
+                this.element.style.transform = `rotate(${this.angle}deg)`;
+
+
+                if (this.y > window.innerHeight - 100) {
+                    this.y = -50;
+                    this.x = Math.random() * window.innerWidth;
+                }
+            }
+        }
+
+        function spawnPopcorn() {
+            const startX = window.innerWidth / 2;
+            const startY = window.innerHeight - 250; 
+            animatableObjects.push(new Popcorn(startX, startY));
+        }
+
+        function spawnFilm() {
+            const startX = Math.random() * (window.innerWidth - 50);
+            const startY = -50;
+            animatableObjects.push(new FilmReel(startX, startY));
+        }
+
+        function animate() {
+            animatableObjects.forEach(obj => obj.move());
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
