@@ -1,4 +1,4 @@
-/* style.css - Közös dizájn a sötét-arany témához */
+
 body {
     /* background-color: #121212; */
     background-color:#121212;
@@ -88,7 +88,6 @@ main {
     border-radius: 0; 
 }
 
-/* ÚJ RÉSZ: A tartalmat (táblázat, űrlap, szöveg) viszont középen tartjuk, hogy ne nyúljon el! */
 .aloldal-hatter table, 
 .aloldal-hatter .form-container, 
 .aloldal-hatter h2, 
