@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozi Rendszer - Fetch API CRUD</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Web programozás-1 Előadás Házifeladat</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Főoldal</a>
+        <a href="javascript.html">JavaScript CRUD</a>
+        <a href="react.html">React CRUD</a>
+        <a href="spa.html">SPA (Játékok)</a>
+        <a href="fetchapi.html">Fetch API</a>
+        <a href="axios.html">Axios CRUD</a>
+        <a href="oojs.html">OOJS</a>
+    </nav>
+
+    <main class="aloldal-hatter">
+        <h2>Filmek (Szerveroldali Adatbázissal - Fetch API)</h2>
+        <h2 style="color: #aaaaaa;">Ez az oldal a PHP háttérrendszerrel (api.php) és a MySQL adatbázissal kommunikál.</h2>
+        
+        <div class="form-container">
+            <h3 id="form-title">Új film hozzáadása</h3>
+            <input type="hidden" id="film-id">
+            <input type="text" id="film-cim" placeholder="Film címe" required>
+            <input type="number" id="film-ev" placeholder="Kiadás éve (pl. 1932)" required>
+            <input type="number" id="film-hossz" placeholder="Hossz (perc)" required>
+            <button onclick="mentes()">Mentés</button>
+            <button onclick="urlapTorles()">Mégse</button>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Cím</th>
+                    <th>Év</th>
+                    <th>Hossz (perc)</th>
+                    <th>Műveletek</th>
+                </tr>
+            </thead>
+            <tbody id="film-tabla-body">
+                </tbody>
+        </table>
+    </main>
+
+    <footer>
+        Készítette: Horváth Gréta Neptun: AZQ13J - Dibáczi Eszter Neptun: AF96RG - Kovács Dániel Neptun: Z2IGLN
+    </footer>
+
+    <script>
+        // Az API végpontunk címe
+        const apiUrl = 'api.php';
+
+        // 1. READ - Adatok lekérése a szerverről
+        async function adatokBetoltese() {
+            try {
+                const response = await fetch(apiUrl);
+                const filmek = await response.json();
+                tablaKirajzolasa(filmek);
+            } catch (error) {
+                console.error('Hiba a betöltéskor:', error);
+            }
+        }
+
+        // Táblázat kirajzolása
+        function tablaKirajzolasa(filmek) {
+            const tbody = document.getElementById('film-tabla-body');
+            tbody.innerHTML = ''; 
+
+            filmek.forEach(film => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${film.id}</td>
+                    <td>${film.cim}</td>
+                    <td>${film.ev}</td>
+                    <td>${film.hossz}</td>
+                    <td>
+                        <button onclick="szerkesztesBetoltese(${film.id}, '${film.cim}', ${film.ev}, ${film.hossz})">✏️ Szerkesztés</button>
+                        <button class="btn-delete" onclick="torles(${film.id})">🗑️ Törlés</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        // 2. CREATE & UPDATE - Adatok küldése a szervernek
+        async function mentes() {
+            const idInput = document.getElementById('film-id').value;
+            const cim = document.getElementById('film-cim').value;
+            const ev = parseInt(document.getElementById('film-ev').value);
+            const hossz = parseInt(document.getElementById('film-hossz').value);
+
+            if (cim === '' || isNaN(ev) || isNaN(hossz)) {
+                alert("Kérlek tölts ki minden mezőt helyesen!");
+                return;
+            }
+
+            const adat = { cim: cim, ev: ev, hossz: hossz };
+            let method = 'POST'; // Alapból új létrehozása
+
+            if (idInput !== '') {
+                adat.id = parseInt(idInput);
+                method = 'PUT'; 
+            }
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(adat)
+                });
+                
+                const eredmeny = await response.json();
+                console.log(eredmeny.uzenet); // Szerver válasza
+                
+                urlapTorles();
+                adatokBetoltese(); // Táblázat frissítése a szerverről
+            } catch (error) {
+                console.error('Hiba a mentéskor:', error);
+            }
+        }
+
+        // Szerkesztés betöltése az űrlapba
+        function szerkesztesBetoltese(id, cim, ev, hossz) {
+            document.getElementById('form-title').innerText = "Film módosítása";
+            document.getElementById('film-id').value = id;
+            document.getElementById('film-cim').value = cim;
+            document.getElementById('film-ev').value = ev;
+            document.getElementById('film-hossz').value = hossz;
+        }
+
+        // 3. DELETE - Törlési kérés a szervernek
+        async function torles(id) {
+            if (confirm("Biztosan törölni szeretnéd ezt a filmet az adatbázisból?")) {
+                try {
+                    const response = await fetch(apiUrl, {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ id: id })
+                    });
+                    
+                    const eredmeny = await response.json();
+                    console.log(eredmeny.uzenet);
+                    
+                    adatokBetoltese(); // Táblázat frissítése
+                } catch (error) {
+                    console.error('Hiba a törléskor:', error);
+                }
+            }
+        }
+
+        // Űrlap ürítése
+        function urlapTorles() {
+            document.getElementById('form-title').innerText = "Új film hozzáadása";
+            document.getElementById('film-id').value = '';
+            document.getElementById('film-cim').value = '';
+            document.getElementById('film-ev').value = '';
+            document.getElementById('film-hossz').value = '';
+        }
+
+        // Oldal betöltésekor kérjük le az adatokat az adatbázisból
+        window.onload = adatokBetoltese;
+    </script>
+</body>
+</html>
