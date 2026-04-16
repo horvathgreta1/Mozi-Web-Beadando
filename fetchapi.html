@@ -51,7 +51,7 @@
     </main>
 
     <footer>
-        Készítette: Horváth Gréta Neptun: AZQ13J - Dibáczi Eszter Neptun: AF96RG - Kovács Dániel Neptun: Z2IGLN
+        Készítette: Horváth Gréta Neptun: AZQ13J - Dibáczi Eszter Neptun: AF96RG 
     </footer>
 
     <script>
@@ -103,11 +103,10 @@
             }
 
             const adat = { cim: cim, ev: ev, hossz: hossz };
-            let method = 'POST'; // Alapból új létrehozása
-
+            let method = 'POST'; 
             if (idInput !== '') {
                 adat.id = parseInt(idInput);
-                method = 'PUT'; // Ha van ID, akkor módosítás
+                method = 'PUT'; 
             }
 
             try {
